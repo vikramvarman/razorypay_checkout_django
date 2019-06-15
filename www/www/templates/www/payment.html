@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %} Checkout  {% endblock %}
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="container ">
+	<div class="row">
+		<div class="col-9 my-2 ">
+			<table class="table table-sm   table-bordered">
+				<thead>
+					<tr>
+						<th scope="col">Ship to :</th>
+						<td>{{address}}</td>
+					</tr>
+				</thead>
+			<tbody>
+				<tr>
+					<th scope="col">Address :</th>
+					<td>{{name}}</td>
+
+
+				</tr>
+			</tbody>
+			</table>
+		</div>
+		<div  class="col-3 bg-light" >
+			<div class="row">
+				<p><b>Item : Item1<br>
+				MRP : 500<br>
+				Shipping Cost : 50<br>
+				Total Cost : 550</b></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<button id="rzp-button1">Pay</button>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+
+var options = {
+    "key": "{{key| safe}}", // Enter the Key ID generated from the Dashboard
+    "amount": "29935", // INR 299.35
+    "name": "Acme Corp",
+    "description": "A Wild Sheep Chase is the third novel by Japanese author  Haruki Murakami",
+    "image": "https://example.com/your_logo",
+    "order_id": "{{order_id | safe}}",//Order ID is generated as Orders API has been implemented. Refer the Checkout form table given below
+    "handler": function (response){
+		window.location=window.location.href + "summary/"
+
+		 },
+    "prefill": {
+        "name": "{{name}}",
+        "email": "{{email}}"
+    },
+    "notes": {
+        "address": "note value"
+    },
+    "theme": {
+        "color": "#F37254"
+    }
+};
+var rzp1 = new Razorpay(options);
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+
+
+{% endblock %}
